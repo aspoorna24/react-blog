@@ -1,9 +1,96 @@
-import React from 'react'
+import React, { useContext, useState } from "react";
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    Input,
+    Button,
+    Typography,
+} from "@material-tailwind/react";
+import myContext from "../../../context/data/myContext";
 
-function AdminLogin() {
+export default function AdminLogin() {
+    const context = useContext(myContext);
+    const { mode } = context;
+
     return (
-        <div>AdminLogin</div>
-    )
-}
+        <div className="flex justify-center items-center h-screen">
 
-export default AdminLogin
+            {/* Card  */}
+            <Card
+                className="w-full max-w-[24rem]"
+                style={{
+                    background: mode === 'dark'
+                        ? 'rgb(30, 41, 59)'
+                        : 'rgb(226, 232, 240)'
+                }}
+            >
+                {/* CardHeader */}
+                <CardHeader
+                    color="blue"
+                    floated={false}
+                    shadow={false}
+                    className="m-0 grid place-items-center rounded-b-none py-8 px-4 text-center"
+                    style={{
+                        background: mode === 'dark'
+                            ? 'rgb(226, 232, 240)'
+                            : 'rgb(30, 41, 59)'
+                    }}
+                >
+                    <div className="mb-4 rounded-full border border-white/10 bg-white/10 p-2 text-white">
+                        <div className=" flex justify-center">
+                            {/* Image  */}
+                           
+                            <img src="https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=" className="rounded-full border border-white/10 bg-white/10 h-20 w-20" 
+                            />
+                        </div>
+                    </div>
+
+                    {/* Top Haeding  */}
+                    <Typography variant="h4" style={{
+                        color: mode === 'dark'
+                            ? 'rgb(30, 41, 59)'
+                            : 'rgb(226, 232, 240)'
+                    }}>
+                        Admin Login
+                    </Typography>
+                </CardHeader>
+
+                {/* CardBody */}
+                <CardBody>
+                    <form className=" flex flex-col gap-4">
+                        {/* First Input  */}
+                        <div>
+                            <Input
+                                type="email"
+                                label="Email"
+                                name="email"
+                            />
+                        </div>
+                        {/* Second Input  */}
+                        <div>
+                            <Input
+                                type="password"
+                                label="Password"
+                            />
+                        </div>
+                        {/* Login Button  */}
+                        <Button
+                            style={{
+                                background: mode === 'dark'
+                                    ? 'rgb(226, 232, 240)'
+                                    : 'rgb(30, 41, 59)',
+                                color: mode === 'dark'
+                                    ? 'rgb(30, 41, 59)'
+                                    : 'rgb(226, 232, 240)'
+                            }}>
+                            Login
+                        </Button>
+                    </form>
+                </CardBody>
+            </Card>
+        </div>
+
+
+    );
+} 
