@@ -6,10 +6,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const context = useContext(myContext);
-    const { mode } = context;
+    const { mode,getAllBlog,  deleteBlogs } = context;
 
     const navigate = useNavigate();
 
+    const admin = JSON.parse(localStorage.getItem('admin'))
     //* Logout Function 
     const logout = () => {
         localStorage.clear();
@@ -21,17 +22,17 @@ function Dashboard() {
                 <div
                     className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
                     <div className="left">
-                        <img
+                    <img
                             className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-                            src="https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=" alt="profile"
+                            src='https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=' alt="profile"
                         />
                     </div>
                     <div className="right">
                         <h1
-                            className='text-center font-bold text-2xl mb-2'
+                            className=' font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            Kamal Nayan Upadhyay
+                            {admin?.user?.email.split('@')[0].toUpperCase()}
                         </h1>
 
                         <h2
@@ -39,11 +40,12 @@ function Dashboard() {
                             Software Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">knupadhyay784@gmail.com
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                                {admin?.user?.email}
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blog : </span>  15
+                            <span>Total Blog : </span>  {getAllBlog.length}
                         </h2>
                         <div className=" flex gap-2 mt-2">
                             <Link to={'/createblog'}>
@@ -128,46 +130,57 @@ function Dashboard() {
                                 </thead>
 
                                 {/* tbody  */}
-                                <tbody>
-                                    <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                        {/* S.No   */}
-                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            {'1.'}
-                                        </td>
-
-                                        {/* Blog Thumbnail  */}
-                                        <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
-                                            {/* thumbnail  */}
-                                            <img className='w-16 rounded-lg' src={'https://firebasestorage.googleapis.com/v0/b/blog-fea71.appspot.com/o/blogimage%2FReact%20Introduction.png?alt=media&token=1ba7496b-2cbc-450c-ab1a-57e19882dc76'} alt="thumbnail" />
-                                        </th>
-
-                                        {/* Blog Title  */}
-                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            {'React Introduction'}
-                                        </td>
-
-                                        {/* Blog Category  */}
-                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            {'reactjs'}
-                                        </td>
-
-                                        {/* Blog Date  */}
-                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            {'Jul 25, 2023'}
-                                        </td>
-
-                                        {/* Delete Blog  */}
-                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                
+                                {/* tbody  */}
+                                {getAllBlog.length > 0
+                                    ?
+                                    <>
+                                        {getAllBlog.map((item, index) => {
+                                            const {thumbnail, date,id} = item;
+                                            console.log(item)
+                                            return (
+                                                <tbody>
+                                                    <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
+                                                        {/* S.No   */}
+                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                            {index + 1}.
+                                                        </td>
+                                                        {/* Blog Thumbnail  */}
+                                                        <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
+                                                            {/* thumbnail  */}
+                                                            <img className='w-16 rounded-lg' 
+                                                            src={thumbnail} alt="thumbnail" />
+                                                        </th>
+                                                        {/* Blog Title  */}
+                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                            {item.blogs.title}
+                                                        </td>
+                                                        {/* Blog Category  */}
+                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                            {item.blogs.category}
+                                                        </td>
+                                                        {/* Blog Date  */}
+                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                            {date}
+                                                        </td>
+                                                        {/* Delete Blog  */}
+                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                            <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500' onClick={() => deleteBlogs(id)}>
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            )
+                                        })}</>
+                                    :
+                                    <>
+                                        <h1>Not Found</h1>
+                                    </>
+                                }
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </Layout>
