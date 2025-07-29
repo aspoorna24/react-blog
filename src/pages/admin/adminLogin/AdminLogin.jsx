@@ -8,10 +8,36 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import myContext from "../../../context/data/myContext";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase/FirebaseConfig";
+
 
 export default function AdminLogin() {
     const context = useContext(myContext);
     const { mode } = context;
+
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    //* Login Function
+    const login = async () => {
+        if(!email || !password) {
+            return toast.error("Fill all required fields")
+        }
+        try {
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            toast.success('Login Success')
+            localStorage.setItem('admin', JSON.stringify(result));
+            navigate('/dashboard');
+        } catch (error) {
+            toast.error('Login Failed')
+            console.log(error)
+        }
+    }
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -40,8 +66,7 @@ export default function AdminLogin() {
                     <div className="mb-4 rounded-full border border-white/10 bg-white/10 p-2 text-white">
                         <div className=" flex justify-center">
                             {/* Image  */}
-                           
-                            <img src="https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=" className="rounded-full border border-white/10 bg-white/10 h-20 w-20" 
+                            <img src="https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=" className=" rounded-full border border-white/10 bg-white/10 h-20 w-20"
                             />
                         </div>
                     </div>
@@ -65,6 +90,8 @@ export default function AdminLogin() {
                                 type="email"
                                 label="Email"
                                 name="email"
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
                             />
                         </div>
                         {/* Second Input  */}
@@ -72,10 +99,13 @@ export default function AdminLogin() {
                             <Input
                                 type="password"
                                 label="Password"
+                                value={password}
+                                onChange={(e)=>setPassword(e.target.value)}
                             />
                         </div>
                         {/* Login Button  */}
                         <Button
+                        onClick={login}
                             style={{
                                 background: mode === 'dark'
                                     ? 'rgb(226, 232, 240)'
@@ -93,4 +123,4 @@ export default function AdminLogin() {
 
 
     );
-} 
+}

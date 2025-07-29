@@ -2,11 +2,19 @@ import React, { useContext } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const context = useContext(myContext);
     const { mode } = context;
+
+    const navigate = useNavigate();
+
+    //* Logout Function 
+    const logout = () => {
+        localStorage.clear();
+        navigate('/')
+    }
     return (
         <Layout>
             <div className="py-10">
@@ -15,7 +23,7 @@ function Dashboard() {
                     <div className="left">
                         <img
                             className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-                            src='https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=' alt="profile"
+                            src="https://media.istockphoto.com/id/1192884194/vector/admin-sign-on-laptop-icon-stock-vector.jpg?s=612x612&w=0&k=20&c=W7ClQXF-0UP_9trbNMvC04qUE4f__SOgg6BUdoX6hdQ=" alt="profile"
                         />
                     </div>
                     <div className="right">
@@ -23,9 +31,12 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
+                            Kamal Nayan Upadhyay
                         </h1>
+
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            Software Developer
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">knupadhyay784@gmail.com
@@ -48,12 +59,13 @@ function Dashboard() {
                                         }}
                                         className='px-8 py-2'
                                     >
-                                        CREATE BLOG
+                                        Create Blog
                                     </Button>
                                 </div>
                             </Link>
                             <div className="mb-2">
                                 <Button
+                                    onClick={logout}
                                     style={{
                                         background: mode === 'dark'
                                             ? 'rgb(226, 232, 240)'
@@ -64,19 +76,21 @@ function Dashboard() {
                                     }}
                                     className='px-8 py-2'
                                 >
-                                    LOGOUT
+                                    Logout
                                 </Button>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 {/* Line  */}
                 <hr className={`border-2
-                 ${mode === 'dark'
-                     ? 'border-gray-300'
-                     : 'border-gray-400'}` 
-                 }
+                    ${mode === 'dark'
+                            ? 'border-gray-300'
+                            : 'border-gray-400'}`
+                    }
                 />
+
                 {/* Table  */}
                 <div className="">
                     <div className=' container mx-auto px-4 max-w-7xl my-5' >
@@ -93,19 +107,26 @@ function Dashboard() {
                                     className="text-xs ">
                                     <tr>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            S.No
                                         </th>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            Thumbnail
                                         </th>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            Title
                                         </th>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            Category
                                         </th>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            Date
                                         </th>
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                            Action
                                         </th>
                                     </tr>
                                 </thead>
+
                                 {/* tbody  */}
                                 <tbody>
                                     <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
@@ -113,26 +134,32 @@ function Dashboard() {
                                         <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                             {'1.'}
                                         </td>
+
                                         {/* Blog Thumbnail  */}
                                         <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
                                             {/* thumbnail  */}
                                             <img className='w-16 rounded-lg' src={'https://firebasestorage.googleapis.com/v0/b/blog-fea71.appspot.com/o/blogimage%2FReact%20Introduction.png?alt=media&token=1ba7496b-2cbc-450c-ab1a-57e19882dc76'} alt="thumbnail" />
                                         </th>
+
                                         {/* Blog Title  */}
                                         <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                             {'React Introduction'}
                                         </td>
+
                                         {/* Blog Category  */}
                                         <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                             {'reactjs'}
                                         </td>
+
                                         {/* Blog Date  */}
                                         <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                             {'Jul 25, 2023'}
                                         </td>
+
                                         {/* Delete Blog  */}
                                         <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                            <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>DELETE
+                                            <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
+                                                Delete
                                             </button>
                                         </td>
                                     </tr>
@@ -140,6 +167,7 @@ function Dashboard() {
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </Layout>
